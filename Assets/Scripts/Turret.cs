@@ -5,11 +5,20 @@ using UnityEngine;
 public class Turret : MonoBehaviour {
 
     private Transform target;
-    public float range = 15f;
-    public float turningSpeed = 5;
-    public string enemyTag = "Enemy";
 
+    [Header("Attributes")]
+    public float range = 15f;
+    private float fireCountdown = 0f;
+
+    [Header("Unity Setup Fields")]
     public Transform ParttoRotate;
+    public float turningSpeed = 5;
+
+    public string enemyTag = "Enemy";
+    public float fireRate = 1f;
+
+    public GameObject bulletPrefab;
+    public Transform firePoint;
     // Use this for initialization
 	void Start ()
     {
@@ -48,7 +57,19 @@ public class Turret : MonoBehaviour {
         Vector3 rotation = Quaternion.Lerp(ParttoRotate.rotation, lookRotation, Time.deltaTime * turningSpeed).eulerAngles;
 
         ParttoRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+
+        if (fireCountdown <= 0f)
+        {
+            Shoot();
+            fireCountdown = 1f / fireRate;
+        }
+
+        fireCountdown -= Time.deltaTime;
 	}
+    void Shoot ()
+    {
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+    }
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
