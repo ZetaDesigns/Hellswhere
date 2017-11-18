@@ -1,16 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public Transform enemyPrefab;
+
+    public float timeBetweenWaves = 20f;
+    private float countdown = 2f;
+
+    void Update ()
+    {
+        if (countdown <= 0f)
+        {
+            SpawnWave();
+            countdown = timeBetweenWaves;
+        }
+
+        countdown -= Time.deltaTime;
+    }
+    void SpawnWave ()
+    {
+        Debug.Log("Wave Incomming!");
+    }
 }
