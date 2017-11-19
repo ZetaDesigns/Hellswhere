@@ -21,6 +21,7 @@ public class Node : MonoBehaviour {
         if (turret != null)
         {
             Debug.Log("Already built something here");
+            return;
         }
 
         GameObject turretToBuild = BuildManager.instance.GetTurretToBuild();
