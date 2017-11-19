@@ -5,11 +5,12 @@ using UnityEngine;
 public class Node : MonoBehaviour {
 
     public Color hoverColor;
-
+    public Vector3 positionOffset;
     private GameObject turret;
 
     private Renderer rend;
     private Color oldColor;
+
     void Start ()
     {
         rend = GetComponent<Renderer>();
@@ -22,7 +23,8 @@ public class Node : MonoBehaviour {
             Debug.Log("Already built something here");
         }
 
-        //Build a turret
+        GameObject turretToBuild = BuildManager.instance.GetTurretToBuild();
+        turret = (GameObject) Instantiate(turretToBuild, transform.position + positionOffset, transform.rotation);
 
     }
 	void OnMouseEnter ()
