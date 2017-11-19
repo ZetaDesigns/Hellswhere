@@ -18,6 +18,10 @@ public class Node : MonoBehaviour {
     }
     void OnMouseDown ()
     {
+        if (BuildManager.instance.GetTurretToBuild() == null)
+        {
+            return;
+        }
         if (turret != null)
         {
             Debug.Log("Already built something here");
@@ -30,7 +34,11 @@ public class Node : MonoBehaviour {
     }
 	void OnMouseEnter ()
     {
-       rend.material.color = hoverColor;
+        if (BuildManager.instance.GetTurretToBuild() == null)
+        {
+            return;
+        }
+        rend.material.color = hoverColor;
     }
     void OnMouseExit ()
     {
