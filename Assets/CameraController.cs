@@ -3,12 +3,12 @@
 public class CameraController : MonoBehaviour {
 
     private bool doMove = true;
-    public float panSpeed = 30f;
+    public float panSpeed = 40f;
     public float BorderThickness = 20f;
     public float scrollSpeed = 5f;
 
     public float minY = 10f;
-    public float maxY = 80f;
+    public float maxY = 100f;
 	// Update is called once per frame
 	void Update () {
 
