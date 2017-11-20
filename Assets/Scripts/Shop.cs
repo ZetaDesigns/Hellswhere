@@ -17,6 +17,7 @@ public class Shop : MonoBehaviour {
     }
     public void PurchaseBanhammer ()
     {
-
+        Debug.Log("Chenzw");
+        buildmanager.SetTurretToBuild(buildmanager.banHammerPrefab);
     }
 }

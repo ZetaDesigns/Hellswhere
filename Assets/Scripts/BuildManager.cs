@@ -17,7 +17,6 @@ public class BuildManager : MonoBehaviour {
     }
 
     public GameObject chenzwTurretPrefab;
-
     public GameObject banHammerPrefab;
     private GameObject turretToBuild;
     
