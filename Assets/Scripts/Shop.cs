@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour {
 
+    public TurretBlueprint chenzwTurret;
+    public TurretBlueprint banHammer;
+
+
     BuildManager buildmanager;
 
     void Start ()
     {
         buildmanager = BuildManager.instance;
     }
-    public void PurchaseChenzwTurret ()
+    public void SelectChenzwTurret ()
     {
         Debug.Log("Chenzw");
-        buildmanager.SetTurretToBuild(buildmanager.chenzwTurretPrefab);
+        buildmanager.SelectTurretToBuild(chenzwTurret);
     }
-    public void PurchaseBanhammer ()
+    public void SelectBanhammer ()
     {
-        Debug.Log("Chenzw");
-        buildmanager.SetTurretToBuild(buildmanager.banHammerPrefab);
+        Debug.Log("BanHammer");
+        buildmanager.SelectTurretToBuild(banHammer);
     }
 }

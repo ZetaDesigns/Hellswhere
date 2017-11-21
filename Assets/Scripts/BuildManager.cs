@@ -18,14 +18,25 @@ public class BuildManager : MonoBehaviour {
 
     public GameObject chenzwTurretPrefab;
     public GameObject banHammerPrefab;
-    private GameObject turretToBuild;
+    private TurretBlueprint turretToBuild;
     
-    public GameObject GetTurretToBuild ()
+    public bool CanBuild { get { return turretToBuild != null; } }
+    public bool HasMoney { get { return StatsManager.Money >= turretToBuild.cost; } }
+    public void SelectTurretToBuild (TurretBlueprint turretbp)
     {
-        return turretToBuild;
+        turretToBuild = turretbp;
     }
-    public void SetTurretToBuild (GameObject turret)
+    public void BuildTurretOn (Node node)
     {
-        turretToBuild = turret;
+        if(StatsManager.Money < turretToBuild.cost)
+        {
+            return;
+        }
+        StatsManager.Money -= turretToBuild.cost;
+
+        GameObject turret = (GameObject)Instantiate(turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
+        node.turret = turret;
+
+        Debug.Log("Turret built! Money left: " + StatsManager.Money);
     }
 }
