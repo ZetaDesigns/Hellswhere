@@ -19,9 +19,10 @@ public class BuildManager : MonoBehaviour {
     public GameObject chenzwTurretPrefab;
     public GameObject banHammerPrefab;
     private TurretBlueprint turretToBuild;
-    
+    public GameObject buildEffect;
     public bool CanBuild { get { return turretToBuild != null; } }
     public bool HasMoney { get { return StatsManager.Money >= turretToBuild.cost; } }
+
     public void SelectTurretToBuild (TurretBlueprint turretbp)
     {
         turretToBuild = turretbp;
@@ -36,7 +37,8 @@ public class BuildManager : MonoBehaviour {
 
         GameObject turret = (GameObject)Instantiate(turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
         node.turret = turret;
-
+        GameObject effect = (GameObject)Instantiate(buildEffect, node.GetBuildPosition(), Quaternion.identity);
+        Destroy(effect, 5f);
         Debug.Log("Turret built! Money left: " + StatsManager.Money);
     }
 }
