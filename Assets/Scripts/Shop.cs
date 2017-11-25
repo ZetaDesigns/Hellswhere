@@ -6,7 +6,7 @@ public class Shop : MonoBehaviour {
 
     public TurretBlueprint chenzwTurret;
     public TurretBlueprint banHammer;
-
+    public TurretBlueprint probationTurret;
 
     BuildManager buildmanager;
 
@@ -23,5 +23,10 @@ public class Shop : MonoBehaviour {
     {
         Debug.Log("BanHammer");
         buildmanager.SelectTurretToBuild(banHammer);
+    }
+    public void SelectProbationTurret()
+    {
+        Debug.Log("Probation");
+        buildmanager.SelectTurretToBuild(probationTurret);
     }
 }

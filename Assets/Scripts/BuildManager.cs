@@ -16,8 +16,6 @@ public class BuildManager : MonoBehaviour {
         instance = this;
     }
 
-    public GameObject chenzwTurretPrefab;
-    public GameObject banHammerPrefab;
     private TurretBlueprint turretToBuild;
     public GameObject buildEffect;
     public bool CanBuild { get { return turretToBuild != null; } }

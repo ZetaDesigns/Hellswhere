@@ -6,18 +6,22 @@ public class Turret : MonoBehaviour {
 
     private Transform target;
 
-    [Header("Attributes")]
+    [Header("General")]
     public float range = 15f;
-    private float fireCountdown = 0f;
 
+    [Header("Use Bullets (default)")]
+    public float fireRate = 1f;
+    private float fireCountdown = 0f;
+    public GameObject bulletPrefab;
+    [Header("Use Laser")]
+    public bool useLaser = false;
+    public LineRenderer lineRenderer;
+    public ParticleSystem impactEffect;
+    public Light glowLight;
     [Header("Unity Setup Fields")]
     public Transform ParttoRotate;
     public float turningSpeed = 5;
-
     public string enemyTag = "Enemy";
-    public float fireRate = 1f;
-
-    public GameObject bulletPrefab;
     public Transform firePoint;
     // Use this for initialization
 	void Start ()
@@ -50,22 +54,59 @@ public class Turret : MonoBehaviour {
 	void Update ()
     {
         if (target == null)
+        {
+            if (useLaser)
+            {
+                if (lineRenderer.enabled)
+                {
+                    impactEffect.Stop();
+                    lineRenderer.enabled = false;
+                    glowLight.enabled = false;
+                }
+            }
             return;
+        }
 
+        LockOnTarget();
+        if(useLaser)
+        {
+            Laser();
+        } else
+        {
+            if (fireCountdown <= 0f)
+            {
+                Shoot();
+                fireCountdown = 1f / fireRate;
+            }
+
+            fireCountdown -= Time.deltaTime;
+        }
+	}
+    void LockOnTarget()
+    {
         Vector3 dir = target.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(dir);
         Vector3 rotation = Quaternion.Lerp(ParttoRotate.rotation, lookRotation, Time.deltaTime * turningSpeed).eulerAngles;
-
         ParttoRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
-
-        if (fireCountdown <= 0f)
+    }
+    void Laser()
+    {
+        if(!lineRenderer.enabled)
         {
-            Shoot();
-            fireCountdown = 1f / fireRate;
+            lineRenderer.enabled = true;
+            impactEffect.Play();
+            glowLight.enabled = true;
         }
 
-        fireCountdown -= Time.deltaTime;
-	}
+        lineRenderer.SetPosition(0, firePoint.position);
+        lineRenderer.SetPosition(1, target.position);
+
+        Vector3 dir = firePoint.position - target.position;
+
+        impactEffect.transform.rotation = Quaternion.LookRotation(dir);
+
+        impactEffect.transform.position = target.position + dir.normalized;
+    }
     void Shoot ()
     {
         GameObject bulletObj = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
