@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-    public float speed = 10f;
+    public float startspeed = 10f;
+    [HideInInspector]
+    public float currentspeed;
 
     public int value = 50;
     public GameObject deathEffect;
     public float health;
 
+    public void Start()
+    {
+        currentspeed = startspeed;
+    }
     public void TakeDamage (float amount)
     {
         health -= amount;
@@ -18,6 +24,11 @@ public class Enemy : MonoBehaviour {
         {
             Die();
         }
+    }
+
+    public void Slow (float slowing)
+    {
+        currentspeed = startspeed * (1f - slowing);
     }
 
     void Die()
