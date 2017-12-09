@@ -20,7 +20,10 @@ public class BuildManager : MonoBehaviour {
     private Node selectedNode;
 
     public nodeUI nodeUI;
+
     public GameObject buildEffect;
+    public GameObject sellEffect;
+
     public bool CanBuild { get { return turretToBuild != null; } }
     public bool HasMoney { get { return StatsManager.Money >= turretToBuild.cost; } }
 
