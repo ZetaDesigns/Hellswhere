@@ -55,6 +55,9 @@ public class Node : MonoBehaviour {
 
         GameObject _turret = (GameObject)Instantiate(blueprint.prefab, GetBuildPosition(), Quaternion.identity);
         turret = _turret;
+
+        turretBlueprint = blueprint;
+
         GameObject effect = (GameObject)Instantiate(BuildManager.instance.buildEffect, GetBuildPosition(), Quaternion.identity);
         Destroy(effect, 5f);
         Debug.Log("Turret built!");
@@ -74,7 +77,7 @@ public class Node : MonoBehaviour {
 
         GameObject effect = (GameObject)Instantiate(BuildManager.instance.buildEffect, GetBuildPosition(), Quaternion.identity);
         Destroy(effect, 5f);
-
+        isUpgraded = true;
         Debug.Log("Turret upgraded!");
     }
 	void OnMouseEnter ()
