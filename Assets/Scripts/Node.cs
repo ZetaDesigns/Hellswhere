@@ -7,9 +7,12 @@ public class Node : MonoBehaviour {
     public Color notEnoughMoneyColor;
     public Vector3 positionOffset;
 
-    [Header("Optional")]
+    [HideInInspector]
     public GameObject turret;
-
+    [HideInInspector]
+    public TurretBlueprint turretBlueprint;
+    [HideInInspector]
+    public bool isUpgraded = false;
     private Renderer rend;
     private Color oldColor;
 
@@ -29,18 +32,50 @@ public class Node : MonoBehaviour {
         {
             return;
         }
+
+        if (turret != null)
+        {
+            BuildManager.instance.SelectNode(this);
+            return;
+        }
         if (!BuildManager.instance.CanBuild)
         {
             return;
         }
-        if (turret != null)
+        BuildTurret(BuildManager.instance.GetTurretToBuild());
+
+    }
+    void BuildTurret(TurretBlueprint blueprint)
+    {
+        if (StatsManager.Money < blueprint.cost)
         {
-            Debug.Log("Already built something here");
             return;
         }
+        StatsManager.Money -= blueprint.cost;
 
-        BuildManager.instance.BuildTurretOn(this);
+        GameObject _turret = (GameObject)Instantiate(blueprint.prefab, GetBuildPosition(), Quaternion.identity);
+        turret = _turret;
+        GameObject effect = (GameObject)Instantiate(BuildManager.instance.buildEffect, GetBuildPosition(), Quaternion.identity);
+        Destroy(effect, 5f);
+        Debug.Log("Turret built!");
+    }
+    public void UpgradeTurret ()
+    {
+        if (StatsManager.Money < turretBlueprint.upgradeCost)
+        {
+            return;
+        }
+        StatsManager.Money -= turretBlueprint.upgradeCost;
+        //Get rid of old turret
+        Destroy(turret);
+        //Build upgraded one
+        GameObject _turret = (GameObject)Instantiate(turretBlueprint.upgradedPrefab, GetBuildPosition(), Quaternion.identity);
+        turret = _turret;
 
+        GameObject effect = (GameObject)Instantiate(BuildManager.instance.buildEffect, GetBuildPosition(), Quaternion.identity);
+        Destroy(effect, 5f);
+
+        Debug.Log("Turret upgraded!");
     }
 	void OnMouseEnter ()
     {
