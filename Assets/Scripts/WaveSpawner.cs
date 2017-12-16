@@ -7,20 +7,21 @@ public class WaveSpawner : MonoBehaviour {
     public Transform enemyPrefab;
     public Transform spawnPoint;
     public Text CountdownText;
-    public float timeBetweenWaves = 0f;
     private float countdown = 2f;
     private int waveIndex = 0;
-
+    private float[] TimeBetweenWaves = new float[] {0f, 5f, 7f, 10f, 12f, 15f};
     void Update ()
     {
         if (countdown <= 0f)
         {
             StartCoroutine(SpawnWave());
-            if(timeBetweenWaves <= 30f)
+            if (waveIndex <= 5)
             {
-                timeBetweenWaves += 5f;
+                countdown = TimeBetweenWaves[waveIndex];
+            } else
+            {
+                countdown = 15f;
             }
-            countdown = timeBetweenWaves;
         }
 
         countdown -= Time.deltaTime;
